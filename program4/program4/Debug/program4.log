@@ -1,0 +1,4 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\program4\program4\source.cpp(119): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  program4.vcxproj -> C:\Users\mujta\OneDrive\documents\visual studio 2015\Projects\program4\Debug\program4.exe
+  program4.vcxproj -> C:\Users\mujta\OneDrive\documents\visual studio 2015\Projects\program4\Debug\program4.pdb (Partial PDB)

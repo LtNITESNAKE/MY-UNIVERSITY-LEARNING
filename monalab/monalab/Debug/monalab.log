@@ -1,0 +1,4 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\monalab\monalab\source.cpp(34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  monalab.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\monalab\Debug\monalab.exe
+  monalab.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\monalab\Debug\monalab.pdb (Partial PDB)

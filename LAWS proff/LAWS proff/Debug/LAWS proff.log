@@ -1,0 +1,5 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\laws proff\laws proff\source.cpp(27): warning C4566: character represented by universal-character-name '\u222A' cannot be represented in the current code page (1252)
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\laws proff\laws proff\source.cpp(27): warning C4566: character represented by universal-character-name '\u2229' cannot be represented in the current code page (1252)
+  LAWS proff.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\LAWS proff\Debug\LAWS proff.exe
+  LAWS proff.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\LAWS proff\Debug\LAWS proff.pdb (Partial PDB)

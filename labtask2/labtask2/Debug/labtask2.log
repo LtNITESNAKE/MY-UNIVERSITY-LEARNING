@@ -1,0 +1,9 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(149): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(156): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(162): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(168): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(174): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\mujta\onedrive\documents\visual studio 2015\projects\labtask2\labtask2\source.cpp(180): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  labtask2.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\labtask2\Debug\labtask2.exe
+  labtask2.vcxproj -> c:\users\mujta\onedrive\documents\visual studio 2015\Projects\labtask2\Debug\labtask2.pdb (Partial PDB)
