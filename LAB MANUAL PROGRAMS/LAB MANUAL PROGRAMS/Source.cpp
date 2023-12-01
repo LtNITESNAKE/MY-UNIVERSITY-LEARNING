@@ -216,13 +216,22 @@ void main()
 			  b -= w;
 		  }*/
 
-	int mon, tue, wed;
+	/*int mon, tue, wed;
 
 	cout << "enter the temperature of monday ,tuesday and wednesday";
 	cin >> mon >> tue >> wed;
-
-
-
+	if ((mon < tue)<=15 && (mon< wed)<=15)
+	{
+		cout << "MONDAY is coldest";
+	}
+	else if ((tue < mon)<=15 && (tue< wed)<=15)
+	{
+		cout << "tuesday is coldest";
+	}
+	else if ((wed < mon)<=15 && (wed< tue)<=15)
+	{
+		cout << "wednesday is coldest";
+	}*/
 
 
 
