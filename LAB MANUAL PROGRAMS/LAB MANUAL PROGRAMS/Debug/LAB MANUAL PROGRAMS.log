@@ -1,3 +1,6 @@
 ﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\git\my-university-learning\lab manual programs\lab manual programs\source.cpp(223): warning C4804: '<=': unsafe use of type 'bool' in operation
+c:\users\mujta\onedrive\documents\visual studio 2015\git\my-university-learning\lab manual programs\lab manual programs\source.cpp(227): warning C4804: '<=': unsafe use of type 'bool' in operation
+c:\users\mujta\onedrive\documents\visual studio 2015\git\my-university-learning\lab manual programs\lab manual programs\source.cpp(231): warning C4804: '<=': unsafe use of type 'bool' in operation
   LAB MANUAL PROGRAMS.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\LAB MANUAL PROGRAMS\Debug\LAB MANUAL PROGRAMS.exe
   LAB MANUAL PROGRAMS.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\LAB MANUAL PROGRAMS\Debug\LAB MANUAL PROGRAMS.pdb (Partial PDB)

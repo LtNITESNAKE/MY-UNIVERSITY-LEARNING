@@ -1,0 +1,4 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\git\my-university-learning\project14\project14\source.cpp(111): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Project14.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\Project14\Debug\Project14.exe
+  Project14.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\Project14\Debug\Project14.pdb (Partial PDB)
