@@ -1,0 +1,4 @@
+﻿  Source.cpp
+c:\users\mujta\onedrive\documents\visual studio 2015\git\my-university-learning\lab task mona\lab task mona\source.cpp(48): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  LAB TASK MONA.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\LAB TASK MONA\Debug\LAB TASK MONA.exe
+  LAB TASK MONA.vcxproj -> C:\Users\mujta\OneDrive\Documents\Visual Studio 2015\git\MY-UNIVERSITY-LEARNING\LAB TASK MONA\Debug\LAB TASK MONA.pdb (Partial PDB)
