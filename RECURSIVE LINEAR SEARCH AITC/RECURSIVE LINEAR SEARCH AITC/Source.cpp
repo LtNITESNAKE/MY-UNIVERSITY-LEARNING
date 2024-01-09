@@ -16,6 +16,24 @@ int RLS(int a[] , int n, int x)
 	else
 		return RLS(a, n - 1, x);
 }
+int RBS(int a[], int min, int max, int x)
+{
+	int mid = (max + min) / 2;
+	if (max < min)
+		return -1;
+	else if (x == a[mid])
+	{
+		return mid;
+	}
+	else if (x > a[mid])
+	{
+		return RBS(a, mid + 1, max, x);
+	}
+	else if (x < a[mid])
+	{
+		return RBS(a, min, mid-1, x);
+	}
+}
 void main()
 {
 	 int size=5;
@@ -29,8 +47,11 @@ void main()
 	int f;
 	cin >> f;
         int result =RLS(b, size, f);
-		cout << "searched number is at index" << result;
-
+		int l = 0;
+		int h = size;
+		int result1 = RBS(b,l,h,f);
+		cout << "searched number is at index RLS " << result<<endl;
+		cout << "searched number is at index  RBS " << result1<<endl;
 
 	system("pause");
 }
