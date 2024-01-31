@@ -1,61 +1,93 @@
 #include<iostream>
 #include<string>
 #include<cstdlib>
-
 using namespace std;
+
 const int courses = 2;
 const int ALLstudents = 100;
 
 struct course
 {
-	string course_names;
+	string course_names=" ";
 	string course_codes;
-	int credit_hours;
-	string grades;
+	int credit_hours=0;
+	char grades = '\0';
 	bool prerequisite_completed;
 	string prerequisite_course;
+	float midTermMarks = 0.0;
+	float labMarks = 0.0;
+	float finalExamMarks = 0.0;
 };
+
 struct enrollment
 {
 	string add_date;
-	string grad_date;
+	string grad_date = "";
+	float fines = 0;
 	string pro_to_studu;
 	string degree;
-	int fscmarks, matmarks;
+	int fscmarks=0, matmarks=0;
 	string CNIC;
 	string Email;
 	string D_O_B;
 	string Address;
-
 };
+
 struct User {
 	string username;
 	string password;
 };
+
 struct Student {
 	string ID;
 	string name;
 	string contact;
-	float gpa;
-	float cgpa;
-	float fees;
-	float fines;
+	float gpa=0;
+	float cgpa=0;
+	float fees=0;
+	float fines=0;
 	enrollment enroll;
 	course Course[courses];
-
 };
+
+struct universitycourse {
+	string course_names;
+	string course_codes;
+	int credit_hours=0;
+	int semester=0;
+	string prerequisite_course;
+	float passingMarks = 50.0;
+
+	void initializeCourse() {
+		cout << "Enter Course Name: ";
+		cin.ignore();
+		getline(cin, course_names);
+		cout << "Enter Course Code: ";
+		getline(cin, course_codes);
+		cout << "Enter Credit Hours: ";
+		cin >> credit_hours;
+		cout << "Enter Semester: ";
+		cin >> semester;
+		cout << "Enter Prerequisite Course (if any): ";
+		cin.ignore();
+		getline(cin, prerequisite_course);
+	}
+};
+
 struct DataCell {
 	Student* studs;
-	int numStudents;
-	int maxStudents;
+	int numStudents=0;
+	int maxStudents=0;
+	universitycourse UnivCourses[courses];
 };
+
 struct AuthenticatedUser {
-	int index;
+	int index=0;
 	string role;
 };
 
-// datacell dynamic
-DataCell inDataCell() 
+
+DataCell inDataCell()
 {
 	DataCell dataCell;
 	dataCell.studs = new Student[ALLstudents];
@@ -63,26 +95,24 @@ DataCell inDataCell()
 	dataCell.maxStudents = ALLstudents;
 	return dataCell;
 }
-// checking user and giving role
-AuthenticatedUser authenticateUser(string enteredUsername, string enteredPassword, User users[], int numUsers) 
+AuthenticatedUser authenticateUser(string enteredUsername, string enteredPassword, User users[], int numUsers)
 {
-	for (int i = 0; i < numUsers; i++) 
+	for (int i = 0; i < numUsers; i++)
 	{
-		if (users[i].username == enteredUsername && users[i].password == enteredPassword) 
+		if (users[i].username == enteredUsername && users[i].password == enteredPassword)
 		{
 			AuthenticatedUser authUser;
 			authUser.index = i;
-			authUser.role = "Administrator";  
+			authUser.role = "Administrator";
 			return authUser;
 		}
 	}
 	// Authentication failed
 	AuthenticatedUser authUser;
 	authUser.index = -1;
-	authUser.role = "user";  
+	authUser.role = "user";
 	return authUser;
 }
-
 AuthenticatedUser loginUser(User users[], int numUsers) {
 	string enteredUsername, enteredPassword;
 
@@ -94,7 +124,6 @@ AuthenticatedUser loginUser(User users[], int numUsers) {
 
 	return authenticateUser(enteredUsername, enteredPassword, users, numUsers);
 }
-
 void viewUserProfile(string role)
 {
 	cout << "Welcome to the system!" << endl;
@@ -104,7 +133,6 @@ void viewUserProfile(string role)
 	cout << "Role: " << role << endl;
 	cout << "------------------------\n";
 }
-// linear search
 int searchStudentByID(DataCell& department, string studentID)
 {
 	for (int i = 0; i < department.numStudents; i++)
@@ -116,7 +144,6 @@ int searchStudentByID(DataCell& department, string studentID)
 	}
 	return -1;
 }
-// bulbble sort
 void sortStudentsByID(DataCell department)
 {
 
@@ -135,82 +162,28 @@ void sortStudentsByID(DataCell department)
 	}
 
 }
+int getStringSize(const string& str) {
+	int count = 0;
 
-void Menu() {
-	cout << "DataCell Department Menu:" << endl;
-	cout << "1. Add Student" << endl;
-	cout << "2. Update Student Information" << endl;
-	cout << "3. Display Student Information" << endl;
-	cout << "4. Display All Students" << endl;
-	cout << "5. Search Student by ID" << endl;
-	cout << "6. Sort Students by ID" << endl;
-	cout << "7. Manage Fees" << endl;
-	cout << "8. Manage Fines" << endl;
-	cout << "9. Add Course Details" << endl;
-	cout << "10. Course Display By ID" << endl;
-	cout << "11. Student Details Add" << endl;
-	cout << "12. Generate Transcript" << endl;
-	cout << "13. Manage Course GPA" << endl;
-	cout << "14. EXIT" << endl;
-	cout << "Enter your choice: ";
-}
-
-void course_prereq(DataCell& dataCell, int index)
-{
-	for (int i = 0; i < courses; i++)
-	{
-		// Create a new Student object for each course
-		Student newStudent;  
-		cout << "Enter course " << i + 1 << " name for semester: ";
-		cin.ignore();
-		getline(cin, newStudent.Course[index].course_names);
-
-		cout << "Enter Course " << i + 1 << " code for semester: ";
-		cin.ignore();
-		getline(cin, newStudent.Course[index].course_codes);
-
-		cout << "Enter Course " << i + 1 << " Credit hours for semester: ";
-		
-		cin >> newStudent.Course[index].credit_hours;
-
-		cout << "Enter student Grade for this semester: ";
-		cin.ignore();
-		getline(cin, newStudent.Course[index].grades);
-
-		// Prerequisite information
-		cout << "Does this course have a prerequisite? (y/n): ";
-		char hasPrerequisite;
-		cin >> hasPrerequisite;
-
-		if (hasPrerequisite == 'y' || hasPrerequisite == 'Y')
-		{
-			cout << "Enter the name of the prerequisite course: ";
-			cin >> newStudent.Course[index].prerequisite_course;
-		}
-
-		// Set prerequisite completion based on grade
-		newStudent.Course[index].prerequisite_completed = (newStudent.Course[index].grades != "F" && newStudent.Course[index].grades != "f");
-
-		// Add the current course information to the student at the given index
-		dataCell.studs[index].Course[i] = newStudent.Course[index];
+	for (int i = 0; str[i] != '\0'; ++i) {
+		++count;
 	}
 
-	cout << "Student added successfully." << endl;
+	return count;
 }
-
 void addStudent(DataCell& dataCell, const Student& newStudent)
 {
 	// Check if the student with the same ID already exists
 	int existingIndex = searchStudentByID(dataCell, newStudent.ID);
 
-	if (existingIndex != -1) 
+	if (existingIndex != -1)
 	{
 		cout << "Student with ID " << newStudent.ID << " already exists." << endl;
-		dataCell.studs[existingIndex] = newStudent; 
+		dataCell.studs[existingIndex] = newStudent;
 	}
 	else {
 		// Check if there's enough space, and if not, increase size
-		if (dataCell.numStudents >= dataCell.maxStudents) 
+		if (dataCell.numStudents >= dataCell.maxStudents)
 		{
 			int newSize = dataCell.maxStudents + 10;
 			Student* newStudents = new Student[newSize];
@@ -231,93 +204,62 @@ void addStudent(DataCell& dataCell, const Student& newStudent)
 		}
 	}
 }
-
-void displayStudentInfo(Student student) 
+void course_prereq(DataCell& dataCell, int index)
 {
-	cout << "\nStudent Information:" << endl;
-	cout << "Student ID: " << student.ID << endl;
-	cout << "Name: " << student.name << endl;
-	cout << "Contact no: " << student.contact << endl;
-	cout << "GPA: " << student.gpa << endl;
-	cout << "Fees: RS" << student.fees << endl;
-	cout << "Fines: RS" << student.fines << endl;
-}
-
-void displayStudentInfofortranscript(Student student)
-{
-	cout << "\nStudent Information:" << endl;
-	cout << "Student ID: " << student.ID << endl;
-	cout << "Name: " << student.name << endl;
-	cout << "GPA: " << student.gpa << endl;
-}
-
-void coursedisplay(DataCell&datacell,int index)
-{
-	cout << "\nStudent Information:" << endl;
-	cout << "Student ID: " << datacell.studs[index].ID << endl;
-	cout << "Name: " << datacell.studs[index].name << endl;
-	cout << "GPA: " << datacell.studs[index].gpa << endl;
-
-	// Display course details
-	cout << "\nCourse Details:" << endl;
-	for (int i = 0; i < courses; i++) 
+	for (int i = 0; i < courses; i++)
 	{
-		cout << "-----------------" << endl;
-		cout << "Course Name: " << datacell.studs[index].Course[i].course_names << endl;
-		cout << "Course Code: " << datacell.studs[index].Course[i].course_codes << endl;
-		cout << "Credit Hours: " << datacell.studs[index].Course[i].credit_hours << endl;
-		cout << "Grade: " << datacell.studs[index].Course[i].grades << endl;
+		// Create a new Student object for each course
+		Student newStudent;
+		cout << "Enter course " << i + 1 << " name for semester: ";
+		cin.ignore();
+		getline(cin, newStudent.Course[index].course_names);
 
-		// Display prerequisite information
-		if (datacell.studs[index].Course[i].prerequisite_completed)
+		cout << "Enter Course " << i + 1 << " code for semester: ";
+		cin.ignore();
+		getline(cin, newStudent.Course[index].course_codes);
+
+		cout << "Enter Course " << i + 1 << " Credit hours for semester: ";
+
+		cin >> newStudent.Course[index].credit_hours;
+
+		cout << "Enter student Grade for this semester: ";
+		cin >> newStudent.Course[index].grades;
+
+		// Prerequisite information
+		cout << "Does this course have a prerequisite? (y/n): ";
+		char hasPrerequisite;
+		cin >> hasPrerequisite;
+
+		if (hasPrerequisite == 'y' || hasPrerequisite == 'Y')
 		{
-			cout << "Prerequisite Completed: Yes" << endl;
+			cout << "Enter the name of the prerequisite course: ";
+			cin >> newStudent.Course[index].prerequisite_course;
 		}
-		else 
-		{
-			cout << "Prerequisite Completed: No";
-			if (!datacell.studs[index].Course[i].prerequisite_course.empty())
-			{
-				cout << " - Prerequisite Course can't be studied : " << datacell.studs[index].Course[i].prerequisite_course;
-			}
-			cout << endl;
-		}
+
+		// Set prerequisite completion based on grade
+		newStudent.Course[index].prerequisite_completed = (newStudent.Course[index].grades != 'F' && newStudent.Course[index].grades != 'f');
+
+		// Add the current course information to the student at the given index
+		dataCell.studs[index].Course[i] = newStudent.Course[index];
 	}
-	cout << "-----------------" << endl;
+
+	cout << "Student added successfully." << endl;
 }
-
-void displayAllStudents(DataCell& department)
-{
-	if (department.numStudents== 0)
-	{
-		cout << "No students found." << endl;
-	}
-	else {
-		cout << "\nAll Students:" << endl;
-		for (int i = 0; i < department.numStudents; ++i)
-		{
-			cout << "-----------------" << endl;
-			displayStudentInfo(department.studs[i]);
-		}
-		cout << "-----------------" << endl;
-	}
-
-}
-
 void updateStudentInfo(DataCell& department, int index)
 {
-	cout << "What information would you like to update?" << endl;
-	cout << "1. GPA" << endl;
-	cout << "2. Contact Number" << endl;
-	cout << "3. Fee" << endl;
-	cout << "4. Email " << endl;
-	cout << "5. Address " << endl;
-	cout << "6. Exit Updating Section " << endl;
-	cout << "Enter your choice: ";
-
 	int choice;
-	cin >> choice;
 	do {
+		cout << "What information would you like to update?" << endl;
+		cout << "1. GPA" << endl;
+		cout << "2. Contact Number" << endl;
+		cout << "3. Fee" << endl;
+		cout << "4. Email " << endl;
+		cout << "5. Address " << endl;
+		cout << "6. Exit Updating Section " << endl;
+		cout << "Enter your choice: ";
+
+		cin >> choice;
+
 		switch (choice)
 		{
 		case 1:
@@ -343,9 +285,112 @@ void updateStudentInfo(DataCell& department, int index)
 		default:
 			cout << "Invalid choice." << endl;
 		}
-	} while (choice <= 6);
+	} while (choice != 6);
 }
+void displayUniversityCourses(DataCell& dataCell) {
+	cout << "University Courses:" << endl;
+	for (int i = 0; i < courses; ++i) {
+		cout << "Course Name: " << dataCell.UnivCourses[i].course_names << endl;
+		cout << "Course Code: " << dataCell.UnivCourses[i].course_codes << endl;
+		cout << "Credit Hours: " << dataCell.UnivCourses[i].credit_hours << endl;
+		cout << "Prerequisite Course: " << dataCell.UnivCourses[i].prerequisite_course << endl;
+		cout << "-----------------" << endl;
+	}
+}
+bool canEnroll(Student& student, universitycourse& course) {
+	for (int i = 0; i < courses; ++i) {
+		if (course.course_codes == student.Course[i].prerequisite_course) {
+			return student.Course[i].prerequisite_completed;
+		}
+	}
+	return true;
+}
+void calculateGrades(DataCell& deparment, int& index,int totalMidTermMarks, int totalLabMarks, int totalFinalExamMarks) {
+	int total = totalFinalExamMarks + totalLabMarks + totalMidTermMarks;
+	int obtained = deparment.studs[index].Course[index].finalExamMarks + deparment.studs[index].Course[index].midTermMarks + deparment.studs[index].Course[index].labMarks;
+	float percentage = ((float)obtained / total) * 100;
+	if (percentage >= 89 && percentage <= 100)
+	{
+		deparment.studs[index].Course[index].grades = 'A';
+}
+	else if (percentage >= 79 && percentage <89)
+	{
+		deparment.studs[index].Course[index].grades = 'B';
+	}
+	else if (percentage >= 69 && percentage <79)
+	{
+		deparment.studs[index].Course[index].grades = 'c';
+	}
+	else if (percentage >= 50 && percentage <69)
+	{
+		deparment.studs[index].Course[index].grades = 'D';
+	}
+	else if ( percentage <50)
+	{
+		deparment.studs[index].Course[index].grades = 'F';
+	}
 
+}
+void enrollInUniversityCourse(DataCell& dataCell, Student& student) {
+	displayUniversityCourses(dataCell);
+
+	cout << "Enter the course code to enroll: ";
+	string courseCode;
+	cin >> courseCode;
+
+	for (int i = 0; i < courses; ++i) {
+		if (courseCode == dataCell.UnivCourses[i].course_codes) {
+			// Check prerequisites
+			if (canEnroll(student, dataCell.UnivCourses[i])) {
+				cout << "Enrolled in " << dataCell.UnivCourses[i].course_names << endl;
+				student.Course[i].course_names = dataCell.UnivCourses[i].course_names;
+				student.Course[i].course_codes = dataCell.UnivCourses[i].course_codes;
+				student.Course[i].credit_hours = dataCell.UnivCourses[i].credit_hours;
+				student.Course[i].prerequisite_course = dataCell.UnivCourses[i].prerequisite_course;
+
+				system("cls");
+				cout << "entering grading system----"<<endl;
+
+				cout << "enter mid lab and finals marks of " << student.Course[i].prerequisite_course << endl;
+
+				cout << "Enter Total Marks for Mid-Term: ";
+				float totalMidTermMarks;
+				cin >> totalMidTermMarks;
+
+				cout << "Enter Obtained Marks for Mid-Term: ";
+				cin >> student.Course[i].midTermMarks;
+
+				cout << "Enter Total Marks for Lab: ";
+				float totalLabMarks;
+				cin >> totalLabMarks;
+
+				cout << "Enter Obtained Marks for Lab: ";
+				cin >> student.Course[i].labMarks;
+
+				cout << "Enter Total Marks for Final Exam: ";
+				float totalFinalExamMarks;
+				cin >> totalFinalExamMarks;
+
+				cout << "Enter Obtained Marks for Final Exam: ";
+				cin >> student.Course[i].finalExamMarks;
+
+				// Calculate grades based on obtained marks and total marks
+				calculateGrades(dataCell , i, totalMidTermMarks, totalLabMarks, totalFinalExamMarks);
+
+				// Check prerequisite completion
+				if (student.Course[i].grades == 'F' || student.Course[i].grades == 'f') {
+					cout << "You can't enroll in " << dataCell.studs[i].Course[i].course_names
+						<< " because you have failed this course previously." << endl;
+					dataCell.studs[i].Course[i].prerequisite_completed = false;
+					return;
+				}
+
+				cout << "Enrolled in " << dataCell.UnivCourses[i].course_names << endl;
+			}
+		}
+	}
+	
+}
 void manageFees(DataCell& department, int index)
 {
 	float paymentAmount;
@@ -355,7 +400,6 @@ void manageFees(DataCell& department, int index)
 	department.studs[index].fees -= paymentAmount;
 	cout << "Fees managed successfully. Remaining fees: RS" << department.studs[index].fees << endl;
 }
-
 void manageFines(DataCell& department, int index)
 {
 	float fineAmount;
@@ -365,56 +409,49 @@ void manageFines(DataCell& department, int index)
 	department.studs[index].fines -= fineAmount;
 	cout << "Fines managed successfully. Remaining fines: RS" << department.studs[index].fines << endl;
 }
-void calculateCGPA(DataCell& department, int index)
-{
+void addCourseDetails(DataCell& dataCell, int index) {
+	cout << "Enter course details for student " << dataCell.studs[index].ID << ":" << endl;
+	for (int i = 0; i < courses; ++i) {
+		cout << "Enter grade for course " << i + 1 << ": ";
+		cin >> dataCell.studs[index].Course[i].grades;
+	}
+}
+void calculateGPA(Student& student) {
 	float totalCreditHours = 0;
 	float totalGradePoints = 0;
 
-	for (int i = 0; i < courses; i++)
-	{
-		float creditHours = department.studs[index].Course[i].credit_hours;
+	for (int i = 0; i < courses; i++) {
+		int creditHours = student.Course[i].credit_hours;
 		totalCreditHours += creditHours;
-		float gradePoints = 0;
-		if (department.studs[index].Course[i].grades == "A" || department.studs[index].Course[i].grades == "a")
-			gradePoints = 4.0;
-		else if (department.studs[index].Course[i].grades == "B" || department.studs[index].Course[i].grades == "b")
-			gradePoints = 3.0;
-		else if (department.studs[index].Course[i].grades == "C" || department.studs[index].Course[i].grades == "c")
-			gradePoints = 2.5;
-		else if (department.studs[index].Course[i].grades == "D" || department.studs[index].Course[i].grades == "d")
-			gradePoints = 2.0;
-		else if (department.studs[index].Course[i].grades == "F" || department.studs[index].Course[i].grades == "f")
-			gradePoints = 1.5;
+		int gradePoints = 0;
 
+		// Assuming you want to take GPA from the user
+		cout << "Enter GPA for course " << i + 1 << ": ";
+		cin >> gradePoints;
 
 		totalGradePoints += (gradePoints * creditHours);
 	}
 
-	department.studs[index].cgpa = totalGradePoints / totalCreditHours;
+	student.gpa = (totalGradePoints / totalCreditHours);
 }
+void calculateCGPA(DataCell& department, int index) {
+	int totalCreditHours = 0;
+	int totalGradePoints = 0;
 
-int getStringSize(const string& str)
-{
-	int count = 0;
-	for (const char* charPtr = str.c_str(); *charPtr != '\0'; ++charPtr)
-	{
-		++count;
+	for (int i = 0; i < courses; i++) {
+		int creditHours = department.studs[index].Course[i].credit_hours;
+		totalCreditHours += creditHours;
+		int gradePoints = department.studs[index].Course[i].grades;
+
+		totalGradePoints += (gradePoints * creditHours);
 	}
-	return count;
-}
 
+	department.studs[index].cgpa = (float)totalGradePoints / totalCreditHours;
+}
 void Studentdetails(DataCell& department, int index)
 {
 	cout << "------- Student Details -------" << endl;
 
-	cout << "Enter Student CNIC (13 digits): ";
-	cin >> department.studs[index].enroll.CNIC;
-	while (getStringSize(department.studs[index].enroll.CNIC) != 13)
-	{
-		cout << "Invalid CNIC. Please enter a 13-digit CNIC: ";
-		cin >> department.studs[index].enroll.CNIC;
-	
-	}
 	cout << "Enter Student Email: ";
 	cin.ignore();
 	getline(cin, department.studs[index].enroll.Email);
@@ -436,9 +473,9 @@ void Studentdetails(DataCell& department, int index)
 	}
 
 }
-
 void generateTranscript(DataCell& department, int index)
 {
+	department.studs[index].cgpa = 0;
 	cout << "------- Transcript for Student ID: " << department.studs[index].ID << " -------" << endl;
 	cout << "Name: " << department.studs[index].name << endl;
 	cout << "Admission Date: " << department.studs[index].enroll.add_date << endl;
@@ -457,21 +494,135 @@ void generateTranscript(DataCell& department, int index)
 
 	cout << "CGPA: " << department.studs[index].cgpa << endl;
 }
-
-
+void Menu() {
+	cout << "DataCell Department Menu:" << endl;
+	cout << "1. Add Student" << endl;
+	cout << "2. Update Student Information" << endl;
+	cout << "3. Display Student Information" << endl;
+	cout << "4. Display All Students" << endl;
+	cout << "5. Search Student by ID" << endl;
+	cout << "6. Sort Students by ID" << endl;
+	cout << "7. Manage Fees" << endl;
+	cout << "8. Manage Fines" << endl;
+	cout << "9. Enrollment of student " << endl;
+	cout << "10. Course Display By ID" << endl;
+	cout << "11. Student Details Add" << endl;
+	cout << "12. Generate Transcript" << endl;
+	cout << "13. Manage Course GPA" << endl;
+	cout << "14. Manage CGPA " << endl;
+	cout << "15. Add University Courses" << endl;
+	cout << "16. EXIT" << endl;
+	cout << "Enter your choice: ";
+}
 void Menuforuser() {
 	cout << "DataCell Department Menu:" << endl;
 	cout << "3. Display Student Information" << endl;
 	cout << "4. Display All Students" << endl;
 	cout << "5. Search Student by ID" << endl;
 	cout << "6. Sort Students by ID" << endl;
-	cout << "10. Course Display By ID " << endl;
-	cout << "12.Generate Transcript " << endl;
-	cout << "13. Exit" << endl;
+	cout << "10. Course Display By ID" << endl;
+	cout << "12. Generate Transcript" << endl;
+	cout << "16. EXIT" << endl;
 	cout << "Enter your choice: ";
 }
+void addUniversityCourses(DataCell& dataCell) {
+	for (int i = 0; i < courses; ++i) {
+		cout << "Enter details for University Course " << i + 1 << endl;
+		dataCell.UnivCourses[i].initializeCourse();
+	}
+}
+void displayStudentInfoWithCourses(DataCell& department, int index) {
+	cout << "\nStudent Information:" << endl;
+	cout << "Student ID: " << department.studs[index].ID << endl;
+	cout << "Name: " << department.studs[index].name << endl;
+	cout << "Contact no: " << department.studs[index].contact << endl;
+	cout << "GPA: " << department.studs[index].gpa << endl;
+	cout << "Fees: RS" << department.studs[index].fees << endl;
+	cout << "Fines: RS" << department.studs[index].fines << endl;
 
-void performTask(DataCell& dataCell, bool& exitProgram,string role)
+	// Display course details
+	cout << "\nCourse Details:" << endl;
+	for (int i = 0; i < courses; i++) {
+		cout << "-----------------" << endl;
+		cout << "Course Name: " << department.studs[index].Course[i].course_names << endl;
+		cout << "Course Code: " << department.studs[index].Course[i].course_codes << endl;
+		cout << "Credit Hours: " << department.studs[index].Course[i].credit_hours << endl;
+		cout << "Grade: " << department.studs[index].Course[i].grades << endl;
+
+		// Display prerequisite information
+		cout << "Prerequisite Completed: ";
+		if (department.studs[index].Course[i].prerequisite_completed) {
+			cout << "Yes";
+		}
+		else {
+			cout << "No";
+		}
+
+		// Display prerequisite course if available
+		if (!department.studs[index].Course[i].prerequisite_course.empty()) {
+			cout << " - Prerequisite Course: " << department.studs[index].Course[i].prerequisite_course;
+		}
+		cout << endl;
+	}
+	cout << "-----------------" << endl;
+}
+void coursedisplay(DataCell& datacell, int index) {
+	cout << "\nStudent Information:" << endl;
+	cout << "Student ID: " << datacell.studs[index].ID << endl;
+	cout << "Name: " << datacell.studs[index].name << endl;
+	cout << "GPA: " << datacell.studs[index].gpa << endl;
+
+	// Display course details
+	cout << "\nCourse Details:" << endl;
+	for (int i = 0; i < courses; i++) {
+		cout << "-----------------" << endl;
+		cout << "Course Name: " << datacell.studs[index].Course[i].course_names << endl;
+		cout << "Course Code: " << datacell.studs[index].Course[i].course_codes << endl;
+		cout << "Credit Hours: " << datacell.studs[index].Course[i].credit_hours << endl;
+		cout << "Grade: " << datacell.studs[index].Course[i].grades << endl;
+
+		// Display prerequisite information
+		cout << "Prerequisite Completed: ";
+		if (datacell.studs[index].Course[i].prerequisite_completed) {
+			cout << "Yes";
+		}
+		else {
+			cout << "No";
+
+			// Iterate over characters to check if not empty
+			bool hasPrerequisite = false;
+			for (int j = 0; datacell.studs[index].Course[i].prerequisite_course[j] != '\0'; j++) {
+				hasPrerequisite = true;
+				break;
+			}
+
+			if (hasPrerequisite) {
+				cout << " - Prerequisite Course can't be studied : " << datacell.studs[index].Course[i].prerequisite_course;
+			}
+		}
+		cout << endl;
+	}
+	cout << "-----------------" << endl;
+}
+void displayAllStudents(DataCell& department)
+{
+
+	if (department.numStudents == 0)
+	{
+		cout << "No students found." << endl;
+	}
+	else {
+		cout << "\nAll Students:" << endl;
+		for (int i = 0; i < department.numStudents; ++i)
+		{
+			cout << "-----------------" << endl;
+			displayStudentInfoWithCourses(department, i);
+		}
+		cout << "-----------------" << endl;
+	}
+
+}
+void performTask(DataCell& dataCell, bool& exitProgram, string role)
 {
 	dataCell.numStudents = 0;
 	int choice;
@@ -491,6 +642,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			// Adding a new student
 			if (role == "Administrator")
 			{
+
 				Student newStudent;
 				cout << "Enter student ID: ";
 				cin >> newStudent.ID;
@@ -499,25 +651,29 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 				cin.ignore();
 				getline(cin, newStudent.name);
 				cout << "Enter Student Contact Number (11 digits): ";
-				cin >> dataCell.studs[index].contact;
-				while (getStringSize(dataCell.studs[index].contact) != 11)
+				cin >> newStudent.contact;
+				while (getStringSize(newStudent.contact) != 11)
 				{
 					cout << "Invalid Contact Number. Please enter an 11-digit number: ";
-					cin >> dataCell.studs[index].contact;
+					cin >> newStudent.contact;
+
 				}
 				cout << "Enter Student admission date (YYYY-MM-DD): ";
-				cin >> dataCell.studs[index].enroll.add_date;
+				cin >> newStudent.enroll.add_date;
 				cout << "Enter Student Program to Study: ";
 				cin.ignore();
-				getline(cin, dataCell.studs[index].enroll.pro_to_studu);
+				getline(cin,newStudent.enroll.pro_to_studu);
 				cout << "Enter Student Degree: ";
-				getline(cin, dataCell.studs[index].enroll.degree);
+				getline(cin, newStudent.enroll.degree);
 				cout << "Enter Student FSC marks: ";
-				cin >> dataCell.studs[index].enroll.fscmarks;
+				cin >> newStudent.enroll.fscmarks;
 				cout << "Enter Student Matric marks: ";
-				cin >> dataCell.studs[index].enroll.matmarks;
+				cin >> newStudent.enroll.matmarks;
+				cout << "Enter student Fee ";
+				cin >> newStudent.fees;
+				cout << "Enter student Fines ";
+				cin >>newStudent.fines;
 				addStudent(dataCell, newStudent);
-
 			}
 			else {
 				cout << "Access denied. Only administrators can add students." << endl;
@@ -525,12 +681,12 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			break;
 		}
 		case 2: {
-	     // Updating student information
+			// Updating student information
 			if (role == "Administrator") {
 				string studentID;
 				cout << "Enter student ID to update: ";
 				cin >> studentID;
-				updateStudentInfo(dataCell, searchStudentByID(dataCell,studentID));
+				updateStudentInfo(dataCell, searchStudentByID(dataCell, studentID));
 
 			}
 			else {
@@ -545,7 +701,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			cin >> studentID;
 			int index = searchStudentByID(dataCell, studentID);
 			if (index != -1) {
-				displayStudentInfo(dataCell.studs[index]);
+				displayStudentInfoWithCourses(dataCell, index);
 			}
 			else {
 				cout << "Student not found." << endl;
@@ -565,7 +721,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			int index = searchStudentByID(dataCell, studentID);
 			if (index != -1) {
 				cout << "Student found at index " << index << "." << endl;
-				displayStudentInfo(dataCell.studs[index]);
+				displayStudentInfoWithCourses(dataCell, index);
 			}
 			else {
 				cout << "Student not found." << endl;
@@ -582,12 +738,15 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			// Managing student fees
 			if (role == "Administrator") {
 				string studentID;
-				float paymentAmount;
 				cout << "Enter student ID to manage fees: ";
 				cin >> studentID;
 				int index = searchStudentByID(dataCell, studentID);
-				manageFees(dataCell,index);
-
+				if (index != -1) {
+					manageFees(dataCell, index);
+				}
+				else {
+					cout << "Student not found." << endl;
+				}
 			}
 			else {
 				cout << "Access denied. Only administrators can manage students fee." << endl;
@@ -596,20 +755,24 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 		}
 		case 8: {
 			// Managing student fines
-			if (role == "Administrator") 
+			if (role == "Administrator")
 			{
 				string studentID;
-				float fineAmount;
 				cout << "Enter student ID to manage fines: ";
 				cin >> studentID;
-			
-				manageFines(dataCell, searchStudentByID(dataCell, studentID));
+				int index = searchStudentByID(dataCell, studentID);
+				if (index != -1) {
+					manageFines(dataCell, index);
+				}
+				else {
+					cout << "Student not found." << endl;
+				}
 			}
 			else {
 				cout << "Access denied. Only administrators can manage students fine." << endl;
 			}
 			break;
-			}
+		}
 		case 9: {
 			// couse addition for the student
 			if (role == "Administrator") {
@@ -619,7 +782,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 				cin >> studentID;
 				int index = searchStudentByID(dataCell, studentID);
 				if (index != -1) {
-					course_prereq(dataCell, index);
+					enrollInUniversityCourse(dataCell, dataCell.studs[index]);
 				}
 				else {
 					cout << "Student not found." << endl;
@@ -637,7 +800,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			cin >> studentID;
 			int index = searchStudentByID(dataCell, studentID);
 			if (index != -1) {
-				coursedisplay(dataCell,index);
+				coursedisplay(dataCell, index);
 			}
 			else {
 				cout << "Student not found." << endl;
@@ -654,6 +817,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 				if (index != -1)
 				{
 					Studentdetails(dataCell, index);
+					addCourseDetails(dataCell, index);
 				}
 				else {
 					cout << "Student not found." << endl;
@@ -663,7 +827,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 				cout << "Access denied. Only administrators can add students details." << endl;
 			}
 			break;
-			
+
 		}
 		case 12: {
 			// Generating student transcript
@@ -673,7 +837,7 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			int index = searchStudentByID(dataCell, studentID);
 			if (index != -1)
 			{
-				generateTranscript(dataCell,index);
+				generateTranscript(dataCell, index);
 			}
 			else {
 				cout << "Student not found." << endl;
@@ -685,25 +849,56 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 		{
 			if (role == "Administrator") {
 				string studentID;
-				cout << "Enter student ID to enter student : ";
+				cout << "Enter student ID to calculate GPA: ";
+				cin >> studentID;
+				int index = searchStudentByID(dataCell, studentID);
+				if (index != -1)
+				{
+					calculateGPA(dataCell.studs[index]);
+					cout << "GPA calculated successfully." << endl;
+				}
+				else {
+					cout << "Student not found." << endl;
+				}
+			}
+			else {
+				cout << "Access denied. Only administrators can calculate GPA." << endl;
+			}
+			break;
+		}
+		case 14:
+		{
+			if (role == "Administrator") {
+				string studentID;
+				cout << "Enter student ID to calculate CGPA: ";
 				cin >> studentID;
 				int index = searchStudentByID(dataCell, studentID);
 				if (index != -1)
 				{
 					calculateCGPA(dataCell, index);
+					cout << "CGPA calculated successfully." << endl;
 				}
 				else {
 					cout << "Student not found." << endl;
 				}
-				
 			}
 			else {
-				cout << "Acess denied, only admin can  calculate the GPA and CGPA of the student";
+				cout << "Access denied. Only administrators can calculate CGPA." << endl;
 			}
 			break;
-
 		}
-		case 14:  {
+		case 15: {
+			// Adding university courses
+			if (role == "Administrator") {
+				addUniversityCourses(dataCell);
+				cout << "University courses added successfully." << endl;
+			}
+			else {
+				cout << "Access denied. Only administrators can add university courses." << endl;
+			}
+			break;
+		}
+		case 16: {
 			char choice;
 			cout << " Press E to exit \n Press R to return back to login screen  ";
 			cin >> choice;
@@ -722,11 +917,14 @@ void performTask(DataCell& dataCell, bool& exitProgram,string role)
 			cout << "Invalid choice. Please enter a valid option." << endl;
 		}
 
-				cout << "\nPress Enter to continue...";
-				cin.ignore();
-				cin.get();
-		}while (choice != 14 );
-	} 
+		cout << "\nPress Enter to continue...";
+		cin.ignore();
+		cin.get();
+	} while (choice != 16);
+}
+
+
+
 
 void main() 
 	{
@@ -788,4 +986,6 @@ void main()
 			}
 		} while (exitProgram);
 	}
+
+
 
