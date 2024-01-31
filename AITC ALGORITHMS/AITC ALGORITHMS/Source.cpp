@@ -2,104 +2,83 @@
 using namespace std;
 void main()
 {
-	/*cout << "insertion sorting" << endl;
-
-	int size;
+	const int size = 4;
+	char ch;
+	cout << "which technique you want to apply B fro bubble sort S for selection sort I fro insertion sort";
+	cin >> ch;
 	int j;
 	int key;
-
-	cout << "enter the size of array";
-	cin >> size;
-	int*insertion = new int[size];
-	for (int i = 0; i < size; i++)
+	int insertion[] = {21,5,18,2};
+	int bubble[] = {21,5,18,2};
+	int selection[] = {21,5,18,2};
+	switch (ch)
 	{
-		cout << "enter elements for array";
-		cin >> insertion[i];
-	}
-	for (int i = 1; i < size; i++)
-	{
-		key = insertion[i];
-		j = i - 1;
-		while (j >= 0 && insertion[j] > key)
+	case 'i':case 'I':
+		cout << "insertion sorting" << endl;
+		for (int i = 1; i < size; i++)
 		{
-			insertion[j + 1] = insertion[j];
-			j--;
-		}
-		insertion[j + 1] = key;
-	}
-	cout << "sorted array will be :";
-	for (int i = 0; i < size; i++)
-	{
-		cout << insertion[i]<<" ";
-	}*/
-
-	/*cout << "bubble sorting" << endl;
-
-	int size;
-	cout << "enter the size of the array: ";
-	cin >> size;
-
-	int* bubble = new int[size];
-
-	for (int i = 0; i < size; i++)
-	{
-		cout << "enter the element " << i + 1 << " of the array: ";
-		cin >> bubble[i];
-	}
-	for (int i = 0; i < size - 1; i++) 
-	{
-		for (int j = 0; j < size - i - 1; j++)
-		{
-			if (bubble[j] > bubble[j + 1]) 
-			{ 
-				int temp = bubble[j];
-				bubble[j] = bubble[j + 1];
-				bubble[j + 1] = temp;
-			}
-		}
-	}
-
-	cout << "sorted array: ";
-	for (int i = 0; i < size; i++) {
-		cout << bubble[i] << " ";
-	}*/
-
-	
-	/*cout<<"selection sorting" << endl;
-
-	int size;
-	cout << "enter the size of the array";
-	cin >> size;
-	int * selection = new int[size];
-	for (int i = 0; i < size; i++)
-	{
-		cout << "enter the values in array";
-		cin >> selection[i];
-	}
-
-	int index = 0;
-	for (int i = 0; i < size-1; i++)
-	{
-		index = i;
-		for (int j = i+1; j < size ; j++)
-		{
-			if (selection[index] > selection[j])
+			key = insertion[i];
+			j = i - 1;
+			while (j >= 0 && insertion[j] > key)
 			{
-				index = j;
+				insertion[j + 1] = insertion[j];
+				j--;
+			}
+			insertion[j + 1] = key;
+		}
+		cout << "sorted array will be :";
+		for (int i = 0; i < size; i++)
+		{
+			cout << insertion[i] << " ";
+		}
+		break;
+	case 'b':case 'B':
+		cout << "bubble sorting" << endl;
+
+		for (int i = 0; i < size - 1; i++)
+		{
+			for (int j = 0; j < size - i - 1; j++)
+			{
+				if (bubble[j] > bubble[j + 1])
+				{
+					int temp = bubble[j];
+					bubble[j] = bubble[j + 1];
+					bubble[j + 1] = temp;
+				}
 			}
 		}
-		int temp = selection[index];
-		selection[index] = selection[i];
-		selection[i] = temp;                                       
+
+		cout << "sorted array: ";
+		for (int i = 0; i < size; i++) {
+			cout << bubble[i] << " ";
+		}
+		break;
+	case 'S': case 's':
+
+		cout << "selection sorting" << endl;
+		int index = 0;
+		for (int i = 0; i < size - 1; i++)
+		{
+			index = i;
+			for (int j = i + 1; j < size; j++)
+			{
+				if (selection[index] > selection[j])
+				{
+					index = j;
+				}
+			}
+			int temp = selection[index];
+			selection[index] = selection[i];
+			selection[i] = temp;
+		}
+		cout << "sorted array is :";
+		for (int i = 0; i < size; i++)
+		{
+			cout << selection[i] << "  ";
+		}
+
+
 	}
-	cout << "sorted array is :";
-	for (int i = 0; i < size; i++)
-	{
-		cout << selection[i]<<"  ";
-	}*/
-
-
-
 
 
 	system("pause");
